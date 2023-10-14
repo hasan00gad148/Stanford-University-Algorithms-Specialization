@@ -1,5 +1,6 @@
 import os.path as path
 from union import UnionFind
+from minHeap import MinHeap
 project_dir = path.dirname (path.abspath (__file__))
 
 def read_file(filename):
@@ -8,38 +9,73 @@ def read_file(filename):
     n,m = list(map(int, lines[0].split()))
     lines = lines[1:]
 
-    edges = []
+    g = [None] * n
     for line in lines:
         l = line.split()
         v1 = int(l[0])-1
         v2 = int(l[1])-1
         w = int(l[2])
-        edges.append([v1,v2,w])
+
+        if g[v1] :
+            g[v1].append([v2,w])
+        else :
+            g[v1] =[[v2,w],]
+
+        if g[v2] :
+            g[v2].append([v1,w])
+        else :
+            g[v2] =[[v1,w],]
+
+
+
+
         
-    edges.sort(key=lambda x: x[2])
-    return edges, n, m
+
+    return g, n, m
 
 
 
-def prim(edges, n, m):
+def prim(g, n, m):
 
-    visited = [False]*n
-    i = 0
-    setX = UnionFind(n)
 
+    heap =  MinHeap()
     cost = 0
-    
-    for edge in edges:
+    visited = [False]*n
 
-        v,u,w = edge
-        if setX.find(v) == setX.find(u):
-            continue
-        else:
-            setX.union(u,v)
-            cost += w
 
+
+    v = 151
+            
+    visited[v]= True
+
+    for e in g[v]:
+        if not visited[e[0]]:
+            heap.add([e[0],v,e[1]])
+
+
+    while  heap.size:
 
         
+        # if visited[v]:
+        #     continue
+        e = heap.extractMin()
+        v = e[0]
+        if not visited[v]:
+            cost += e[2]
+            visited[v]= True
+
+            for e in g[v]:
+                if not visited[e[0]]:
+                    heap.add([e[0],v,e[1]])
+        
+
+        
+
+
+
+
+
+
 
     return cost
 
@@ -47,8 +83,8 @@ def prim(edges, n, m):
 
 
 
-edges, n, m = read_file(project_dir+'\\edges.txt')
+g, n, m = read_file(project_dir+'\\edges.txt')
 
-cost = prim(edges, n, m)
+cost = prim(g, n, m)
 
 print (cost)
