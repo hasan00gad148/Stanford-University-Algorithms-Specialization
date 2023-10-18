@@ -1,5 +1,4 @@
 import os.path as path
-from union import UnionFind
 from minHeap import MinHeap
 project_dir = path.dirname (path.abspath (__file__))
 
