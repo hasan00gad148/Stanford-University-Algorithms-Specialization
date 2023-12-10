@@ -23,8 +23,6 @@ def read_file(filename):
 
 def kruskal(edges, n):
 
-    visited = [False]*n
-
     setX = UnionFind(n)
     T=[]
     

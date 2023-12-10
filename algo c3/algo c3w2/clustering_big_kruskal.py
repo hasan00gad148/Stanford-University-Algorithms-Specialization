@@ -10,16 +10,13 @@ def read_file(filename):
     n,n_bits = list(map(int, lines[0].split()))
     lines = lines[1:]
     "c is the number of repeated nodes"
-    c=0
-    es=[]
+
     for i,line in enumerate(lines):
         line = "".join(line[:-1].split())
         num = int(line,2)
         if nodes.get(num,None) is None:
             nodes[num] = i
-        else:
-             es.append([num,num,0])
-             c += 1
+
 
 
     return nodes, n, n_bits
@@ -101,21 +98,16 @@ def kruskal(edges,nodes,n):
 
         
 
-    return T,setX
+    return T
 
 
 nodes, n, n_bits, = read_file(project_dir+'\\clustering_big.txt')
 edges = getEdges(nodes, n, n_bits)
 
-T,X = kruskal(edges, nodes, len(edges))
-s = set()
-for i in range(200000):
-    p = X.find(i)
-    if p in s:
-        continue
-    s.add(p)
+T = kruskal(edges, nodes, len(edges))
+
 print(len(T),len(edges),len(nodes))
-print ("the answer is ",len(s)-(n-len(nodes)))
+print ("the answer is ",len(nodes)-len(T))
 
 """
 
