@@ -31,6 +31,7 @@ def read_graph(filename):
 def dijkstra(g,n, s=0):
 
     weights = [None]*n
+    parints = [None]*n
     heap = MinHeap(weights,flag=False)
 
     weights[s] = 0
@@ -44,6 +45,7 @@ def dijkstra(g,n, s=0):
             v,w = i
             if weights[v] == None or weights[v] > (weights[u]+w):
                 weights[v] = (weights[u]+w)
+                parints[v] = u
                 heap.add(v)
 
     return weights
@@ -67,3 +69,15 @@ for i in vertcies:
     output.append(w[i-1])
 
 print(output)
+
+
+graph = [
+     [(1, 2), (3, 1)],
+     [(2, 3), (4, -5)],
+    [(5, 1)],
+     [(4, 2)],
+     [(5, 3)],
+     []
+]
+w = dijkstra(graph, 6, 0)
+print(w)
